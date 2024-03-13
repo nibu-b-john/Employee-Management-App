@@ -1,5 +1,6 @@
 import 'dart:developer';
-import 'package:employer_v1/Screens/personalDetails.dart';
+import 'package:employer_v1/Screens/Employee/personalDetails.dart';
+import 'package:employer_v1/Screens/Employer/personalDetails.dart';
 import 'package:employer_v1/Services/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -55,12 +56,21 @@ class _RegisterPageState extends State<RegisterPage> {
     try {
       await Auth()
           .createUserWithEmailAndPassword(email: email, password: password);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => PersonalDetails(
-                email: email, dropdownvalue: dropdownvalue.toString())),
-      );
+      if (dropdownvalue == "Employer") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PersonalDetailsEmployer(
+                  email: email, dropdownvalue: dropdownvalue.toString())),
+        );
+      } else if (dropdownvalue == "Employee") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PersonalDetailsEmployee(
+                  email: email, dropdownvalue: dropdownvalue.toString())),
+        );
+      }
     } on FirebaseAuthException catch (e) {
       showInSnackBar(e.code);
     }

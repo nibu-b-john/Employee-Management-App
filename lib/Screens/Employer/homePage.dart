@@ -9,7 +9,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import '../../auth.dart';
 
 class EmployerHomePage extends StatefulWidget {
-  const EmployerHomePage({super.key});
+  String code;
+  EmployerHomePage({super.key, required this.code});
 
   @override
   State<EmployerHomePage> createState() => _EmployerHomePageState();
@@ -19,10 +20,11 @@ class _EmployerHomePageState extends State<EmployerHomePage> {
   bool Loading = true;
   List datalist = [];
 
+  final database = DatabaseService();
   @override
   void initState() {
-    final database = DatabaseService();
-    database.getEmployees().then((value) => {
+    database.getEmployees(widget.code).then((value) => {
+          log(value.toString()),
           setState(
             () {
               datalist = value;
@@ -42,7 +44,7 @@ class _EmployerHomePageState extends State<EmployerHomePage> {
         child: Center(
           child: Text(
             error,
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           ),
         ),
       ));
@@ -58,33 +60,55 @@ class _EmployerHomePageState extends State<EmployerHomePage> {
       }
     }
 
-    log(datalist.toString());
     var mediaquery = MediaQuery.of(context);
     return Scaffold(
-      body: SafeArea(
-        child: Loading
-            ? Center(child: CircularProgressIndicator())
-            : Container(
-                height: mediaquery.size.height,
-                width: mediaquery.size.width,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    Theme.of(context).colorScheme.primary,
-                    Theme.of(context).colorScheme.secondary
-                  ], begin: Alignment.centerLeft, end: Alignment.centerRight),
-                ),
-                child: ListView.builder(
-                  itemBuilder: (context, index) => BusinessCard(
-                    name: datalist[index]['name'],
-                    phone_number: datalist[index]['phone-number'],
-                    designation: datalist[index]['designation'],
-                    district: datalist[index]['district'],
-                    company: datalist[index]['company'],
-                    state: datalist[index]['state'],
-                  ),
-                  itemCount: datalist.length,
-                )),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+            )),
+        backgroundColor: Colors.transparent,
+        centerTitle: true,
+        elevation: 0,
+        title: const Text(
+          'Employees',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+        ),
       ),
+      body: Loading
+          ? const Center(child: CircularProgressIndicator())
+          : Container(
+              height: mediaquery.size.height,
+              width: mediaquery.size.width,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.secondary
+                ], begin: Alignment.centerLeft, end: Alignment.centerRight),
+              ),
+              child: ListView.builder(
+                itemBuilder: (context, index) => Column(
+                  children: [
+                    BusinessCard(
+                      name: datalist[index]['name'],
+                      phone_number: datalist[index]['phone-number'],
+                      designation: datalist[index]['designation'],
+                      district: datalist[index]['district'],
+                      company: datalist[index]['company'],
+                      state: datalist[index]['state'],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    )
+                  ],
+                ),
+                itemCount: datalist.length,
+              )),
     );
   }
 }

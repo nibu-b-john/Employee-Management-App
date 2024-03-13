@@ -1,4 +1,7 @@
 import 'dart:developer';
+import 'package:employer_v1/Screens/Employee/contractPage.dart';
+import 'package:employer_v1/Screens/Employee/homePage.dart';
+import 'package:employer_v1/Screens/Employer/contractPage.dart';
 import 'package:employer_v1/Services/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -58,9 +61,16 @@ class _LoginPageState extends State<LoginPage> {
             NotificationService().showNotification(
                 title: "Logged In", body: "Welcome ${email.split('@')[0]}");
             if (typeOfUser == "Employer") {
-              Navigator.popAndPushNamed(context, '/employer-home');
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ContractPage(email: email)));
             } else if (typeOfUser == "Employee") {
-              Navigator.popAndPushNamed(context, '/employee-home');
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          EmployeeContractPage(email: email)));
             }
           }
         },

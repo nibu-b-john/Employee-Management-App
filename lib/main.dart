@@ -1,9 +1,11 @@
 import 'dart:developer';
-
+import 'package:employer_v1/Screens/Employee/contractPage.dart';
 import 'package:employer_v1/Screens/Employee/homePage.dart';
+import 'package:employer_v1/Screens/Employer/contractPage.dart';
 import 'package:employer_v1/Screens/Employer/homePage.dart';
+import 'package:employer_v1/Screens/Employer/newContractPage.dart';
 import 'package:employer_v1/Screens/loginPage.dart';
-import 'package:employer_v1/Screens/personalDetails.dart';
+import 'package:employer_v1/Screens/Employee/personalDetails.dart';
 import 'package:employer_v1/Screens/registerPage.dart';
 import 'package:employer_v1/notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -52,8 +54,9 @@ class MyApp extends StatelessWidget {
       routes: {
         '/register': ((context) => const RegisterPage()),
         '/login': ((context) => const LoginPage()),
-        '/employer-home': ((context) => const EmployerHomePage()),
+        // '/employer-home': ((context) => ContractPage()),
         '/employee-home': ((context) => const EmployeeHomePage()),
+        '/new-contract': ((context) => const NewContract()),
         // '/home':
       },
     );

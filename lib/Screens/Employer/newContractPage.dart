@@ -1,49 +1,41 @@
 import 'package:employer_v1/Services/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class PersonalDetails extends StatefulWidget {
-  String email;
-  String dropdownvalue;
-  PersonalDetails(
-      {super.key, required this.email, required this.dropdownvalue});
+class NewContract extends StatefulWidget {
+  const NewContract({super.key});
 
   @override
-  State<PersonalDetails> createState() => _PersonalDetailsState();
+  State<NewContract> createState() => _NewContractState();
 }
 
-class _PersonalDetailsState extends State<PersonalDetails> {
+class _NewContractState extends State<NewContract> {
   final _form = GlobalKey<FormState>();
   final _namecontroller = TextEditingController();
-  final _agecontroller = TextEditingController();
-  final _bloodgroupcontroller = TextEditingController();
-  final _phonenumbercontroller = TextEditingController();
-  final _adhaarnumbercontroller = TextEditingController();
-  final _addresscontroller = TextEditingController();
-  final _companycontroller = TextEditingController();
-  final _districtcontroller = TextEditingController();
-  final _statecontroller = TextEditingController();
-  final _designationcontroller = TextEditingController();
+  final _jobtitlecontroller = TextEditingController();
+  final _startdatecontroller = TextEditingController();
+  final _enddatecontroller = TextEditingController();
+  final _hourlyratecontroller = TextEditingController();
+  final _benefitscontroller = TextEditingController();
+  final _descriptioncontroller = TextEditingController();
+
   final database = DatabaseService();
   void onSubmit() {
     final validate = _form.currentState!.validate();
     if (!validate) {
       return;
     }
-    database.addUser(
-        widget.email,
-        widget.dropdownvalue,
+
+    database.createContract(
+        "helloemployer@gmail.com",
         _namecontroller.text,
-        _agecontroller.text,
-        _bloodgroupcontroller.text,
-        _phonenumbercontroller.text,
-        _adhaarnumbercontroller.text,
-        _addresscontroller.text,
-        _companycontroller.text,
-        _districtcontroller.text,
-        _statecontroller.text,
-        _designationcontroller.text);
-    showInSnackBar("Successfully added details");
-    Navigator.popAndPushNamed(context, '/login');
+        _jobtitlecontroller.text,
+        _startdatecontroller.text,
+        _enddatecontroller.text,
+        _hourlyratecontroller.text,
+        _benefitscontroller.text,
+        _descriptioncontroller.text);
+    showInSnackBar("Contract successfully generated");
+    Navigator.pop(context);
   }
 
   void showInSnackBar(String error) {
@@ -64,33 +56,40 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   Widget build(BuildContext context) {
     var mediaquery = MediaQuery.of(context);
     return Scaffold(
-      backgroundColor: Colors.black87,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_new_outlined,
+              color: Colors.white,
+            )),
         centerTitle: true,
         title: const Text(
-          'Add Details',
+          'New Contract',
           style: TextStyle(color: Colors.white),
         ),
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
-      body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Form(
-            key: _form,
-            child: Container(
-              width: mediaquery.size.width,
-              height: mediaquery.size.height,
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-                  Theme.of(context).colorScheme.primary,
-                  Theme.of(context).colorScheme.secondary
-                ], begin: Alignment.centerLeft, end: Alignment.centerRight),
-              ),
-              child: Stack(
-                children: [
-                  Column(
+      body: Form(
+          key: _form,
+          child: Container(
+            width: mediaquery.size.width,
+            height: mediaquery.size.height,
+            padding: EdgeInsets.only(top: 90, left: 20, right: 20, bottom: 30),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+                Theme.of(context).colorScheme.primary,
+                Theme.of(context).colorScheme.secondary
+              ], begin: Alignment.centerLeft, end: Alignment.centerRight),
+            ),
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       //**************Name*******************//
@@ -133,122 +132,173 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           ),
                           filled: true,
                           fillColor: Colors.white.withOpacity(0.27),
-                          hintText: 'Name',
+                          hintText: 'Contract Name',
                           hintStyle: const TextStyle(color: Colors.white),
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 20.0),
                         ),
                       ),
+
                       SizedBox(
                         height: mediaquery.size.height * 0.04,
                       ),
-                      // //**************Age*******************//
-                      // TextFormField(
-                      //   onChanged: (value) {},
-                      //   controller: _agecontroller,
-                      //   validator: (value) {
-                      //     if (value!.isEmpty) {
-                      //       return 'Age field is empty!';
-                      //     } else {
-                      //       return null;
-                      //     }
-                      //   },
-                      //   keyboardType: TextInputType.number,
-                      //   style: TextStyle(
-                      //       color: Theme.of(context).colorScheme.onPrimary),
-                      //   cursorColor: Theme.of(context).colorScheme.onPrimary,
-                      //   autocorrect: false,
-                      //   textInputAction: TextInputAction.next,
-                      //   decoration: InputDecoration(
-                      //     errorBorder: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(15),
-                      //       borderSide:
-                      //           const BorderSide(color: Colors.red, width: 1.0),
-                      //     ),
-                      //     focusedErrorBorder: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(15),
-                      //       borderSide:
-                      //           const BorderSide(color: Colors.red, width: 1.0),
-                      //     ),
-                      //     focusedBorder: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(15),
-                      //       borderSide: const BorderSide(
-                      //           color: Colors.grey, width: 0.0),
-                      //     ),
-                      //     enabledBorder: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(15),
-                      //       borderSide: const BorderSide(
-                      //           color: Colors.grey, width: 0.0),
-                      //     ),
-                      //     filled: true,
-                      //     fillColor: Colors.white.withOpacity(0.27),
-                      //     hintText: 'Age',
-                      //     hintStyle: const TextStyle(color: Colors.white),
-                      //     contentPadding: const EdgeInsets.symmetric(
-                      //         vertical: 10.0, horizontal: 20.0),
-                      //   ),
-                      // ),
-                      // SizedBox(
-                      //   height: mediaquery.size.height * 0.04,
-                      // ),
-                      // //**************Blood Group*******************//
-                      // TextFormField(
-                      //   onChanged: (value) {},
-                      //   controller: _bloodgroupcontroller,
-                      //   validator: (value) {
-                      //     if (value!.isEmpty) {
-                      //       return 'Blood Group field is empty!';
-                      //     } else {
-                      //       return null;
-                      //     }
-                      //   },
-                      //   keyboardType: TextInputType.text,
-                      //   style: TextStyle(
-                      //       color: Theme.of(context).colorScheme.onPrimary),
-                      //   cursorColor: Theme.of(context).colorScheme.onPrimary,
-                      //   autocorrect: false,
-                      //   textInputAction: TextInputAction.next,
-                      //   decoration: InputDecoration(
-                      //     errorBorder: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(15),
-                      //       borderSide:
-                      //           const BorderSide(color: Colors.red, width: 1.0),
-                      //     ),
-                      //     focusedErrorBorder: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(15),
-                      //       borderSide:
-                      //           const BorderSide(color: Colors.red, width: 1.0),
-                      //     ),
-                      //     focusedBorder: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(15),
-                      //       borderSide: const BorderSide(
-                      //           color: Colors.grey, width: 0.0),
-                      //     ),
-                      //     enabledBorder: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(15),
-                      //       borderSide: const BorderSide(
-                      //           color: Colors.grey, width: 0.0),
-                      //     ),
-                      //     filled: true,
-                      //     fillColor: Colors.white.withOpacity(0.27),
-                      //     hintText: 'Blood Group',
-                      //     hintStyle: const TextStyle(color: Colors.white),
-                      //     contentPadding: const EdgeInsets.symmetric(
-                      //         vertical: 10.0, horizontal: 20.0),
-                      //   ),
-                      // ),
-                      // SizedBox(
-                      //   height: mediaquery.size.height * 0.04,
-                      // ),
-                      //**************Phone Number*******************//
+                      //**************Job titles*******************//
                       TextFormField(
                         onChanged: (value) {},
-                        controller: _phonenumbercontroller,
+                        controller: _jobtitlecontroller,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Phone Number Field is empty!';
-                          } else if (value.length != 10) {
-                            return 'Enter a 10 Digit Number!';
+                            return 'Job Title Field is empty!';
+                          } else {
+                            return null;
+                          }
+                        },
+                        keyboardType: TextInputType.text,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onPrimary),
+                        cursorColor: Theme.of(context).colorScheme.onPrimary,
+                        autocorrect: false,
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 1.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 1.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 0.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 0.0),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.27),
+                          hintText: 'Job Title',
+                          hintStyle: const TextStyle(color: Colors.white),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 20.0),
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: mediaquery.size.height * 0.04,
+                      ),
+                      //**************Start Date*******************//
+                      TextFormField(
+                        onChanged: (value) {},
+                        controller: _startdatecontroller,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Date field is empty!';
+                          } else {
+                            return null;
+                          }
+                        },
+                        keyboardType: TextInputType.datetime,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onPrimary),
+                        cursorColor: Theme.of(context).colorScheme.onPrimary,
+                        autocorrect: false,
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 1.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 1.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 0.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 0.0),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.27),
+                          hintText: 'Start Date',
+                          hintStyle: const TextStyle(color: Colors.white),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 20.0),
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: mediaquery.size.height * 0.04,
+                      ),
+                      //**************End Date*******************//
+                      TextFormField(
+                        onChanged: (value) {},
+                        controller: _enddatecontroller,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Date field is empty!';
+                          } else {
+                            return null;
+                          }
+                        },
+                        keyboardType: TextInputType.datetime,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onPrimary),
+                        cursorColor: Theme.of(context).colorScheme.onPrimary,
+                        autocorrect: false,
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 1.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 1.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 0.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 0.0),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.27),
+                          hintText: 'End Date',
+                          hintStyle: const TextStyle(color: Colors.white),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 20.0),
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: mediaquery.size.height * 0.04,
+                      ),
+                      //**************Hourly rate*******************//
+                      TextFormField(
+                        onChanged: (value) {},
+                        controller: _hourlyratecontroller,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Hourly rate field is empty!';
                           } else {
                             return null;
                           }
@@ -282,123 +332,23 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           ),
                           filled: true,
                           fillColor: Colors.white.withOpacity(0.27),
-                          hintText: 'Phone Number',
+                          hintText: 'Hourly Rate',
                           hintStyle: const TextStyle(color: Colors.white),
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 20.0),
                         ),
                       ),
+
                       SizedBox(
                         height: mediaquery.size.height * 0.04,
                       ),
-                      //**************Adhaar Number*******************//
+                      //**************Benefits*******************//
                       TextFormField(
                         onChanged: (value) {},
-                        controller: _adhaarnumbercontroller,
+                        controller: _benefitscontroller,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Adhaar Number Field is empty!';
-                          } else if (value.length != 12) {
-                            return 'Enter a 12 digit Adhaar Number!';
-                          } else {
-                            return null;
-                          }
-                        },
-                        keyboardType: TextInputType.number,
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimary),
-                        cursorColor: Theme.of(context).colorScheme.onPrimary,
-                        autocorrect: false,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide:
-                                const BorderSide(color: Colors.red, width: 1.0),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide:
-                                const BorderSide(color: Colors.red, width: 1.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 0.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 0.0),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.27),
-                          hintText: 'Adhaar Number',
-                          hintStyle: const TextStyle(color: Colors.white),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 20.0),
-                        ),
-                      ),
-                      SizedBox(
-                        height: mediaquery.size.height * 0.04,
-                      ),
-                      // //**************Address*******************//
-                      // TextFormField(
-                      //   maxLines: 3,
-                      //   onChanged: (value) {},
-                      //   controller: _addresscontroller,
-                      //   validator: (value) {
-                      //     if (value!.isEmpty) {
-                      //       return 'Address Field is empty!';
-                      //     } else {
-                      //       return null;
-                      //     }
-                      //   },
-                      //   keyboardType: TextInputType.text,
-                      //   style: TextStyle(
-                      //       color: Theme.of(context).colorScheme.onPrimary),
-                      //   cursorColor: Theme.of(context).colorScheme.onPrimary,
-                      //   autocorrect: false,
-                      //   textInputAction: TextInputAction.done,
-                      //   decoration: InputDecoration(
-                      //     errorBorder: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(15),
-                      //       borderSide:
-                      //           const BorderSide(color: Colors.red, width: 1.0),
-                      //     ),
-                      //     focusedErrorBorder: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(15),
-                      //       borderSide:
-                      //           const BorderSide(color: Colors.red, width: 1.0),
-                      //     ),
-                      //     focusedBorder: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(15),
-                      //       borderSide: const BorderSide(
-                      //           color: Colors.grey, width: 0.0),
-                      //     ),
-                      //     enabledBorder: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(15),
-                      //       borderSide: const BorderSide(
-                      //           color: Colors.grey, width: 0.0),
-                      //     ),
-                      //     filled: true,
-                      //     fillColor: Colors.white.withOpacity(0.27),
-                      //     hintText: 'Address',
-                      //     hintStyle: const TextStyle(color: Colors.white),
-                      //     contentPadding: const EdgeInsets.symmetric(
-                      //         vertical: 10.0, horizontal: 20.0),
-                      //   ),
-                      // ),
-                      // SizedBox(
-                      //   height: mediaquery.size.height * 0.04,
-                      // ),
-                      //**************Company Number*******************//
-                      TextFormField(
-                        onChanged: (value) {},
-                        controller: _companycontroller,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Company Name Field is empty!';
+                            return 'Benefits field is empty!';
                           } else {
                             return null;
                           }
@@ -432,26 +382,28 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           ),
                           filled: true,
                           fillColor: Colors.white.withOpacity(0.27),
-                          hintText: 'Company',
+                          hintText: 'Benefits',
                           hintStyle: const TextStyle(color: Colors.white),
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 20.0),
                         ),
                       ),
+
                       SizedBox(
                         height: mediaquery.size.height * 0.04,
                       ),
-                      //**************District*******************//
+                      //**************description*******************//
                       TextFormField(
                         onChanged: (value) {},
-                        controller: _districtcontroller,
+                        controller: _descriptioncontroller,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'District Field is empty!';
+                            return 'Description field is empty!';
                           } else {
                             return null;
                           }
                         },
+                        maxLines: 5,
                         keyboardType: TextInputType.text,
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary),
@@ -481,110 +433,13 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                           ),
                           filled: true,
                           fillColor: Colors.white.withOpacity(0.27),
-                          hintText: 'District',
+                          hintText: 'Description',
                           hintStyle: const TextStyle(color: Colors.white),
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 20.0),
                         ),
                       ),
-                      SizedBox(
-                        height: mediaquery.size.height * 0.04,
-                      ),
-                      //**************State Number*******************//
-                      TextFormField(
-                        onChanged: (value) {},
-                        controller: _statecontroller,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'State Field is empty!';
-                          } else {
-                            return null;
-                          }
-                        },
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimary),
-                        cursorColor: Theme.of(context).colorScheme.onPrimary,
-                        autocorrect: false,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide:
-                                const BorderSide(color: Colors.red, width: 1.0),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide:
-                                const BorderSide(color: Colors.red, width: 1.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 0.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 0.0),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.27),
-                          hintText: 'State',
-                          hintStyle: const TextStyle(color: Colors.white),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 20.0),
-                        ),
-                      ),
-                      SizedBox(
-                        height: mediaquery.size.height * 0.04,
-                      ),
-                      //**************Ddsignation Number*******************//
-                      TextFormField(
-                        onChanged: (value) {},
-                        controller: _designationcontroller,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Designation Field is empty!';
-                          } else {
-                            return null;
-                          }
-                        },
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimary),
-                        cursorColor: Theme.of(context).colorScheme.onPrimary,
-                        autocorrect: false,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide:
-                                const BorderSide(color: Colors.red, width: 1.0),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide:
-                                const BorderSide(color: Colors.red, width: 1.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 0.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 0.0),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.27),
-                          hintText: 'Designation',
-                          hintStyle: const TextStyle(color: Colors.white),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 20.0),
-                        ),
-                      ),
+
                       SizedBox(
                         height: mediaquery.size.height * 0.04,
                       ),
@@ -595,7 +450,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         style: OutlinedButton.styleFrom(
                             side: const BorderSide(color: Colors.white)),
                         child: const Text(
-                          'Submit',
+                          'Generate',
                           style: TextStyle(
                             color: Colors.white,
                           ),
@@ -603,10 +458,10 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       ),
                     ],
                   ),
-                ],
-              ),
-            )),
-      ),
+                ),
+              ],
+            ),
+          )),
     );
   }
 }

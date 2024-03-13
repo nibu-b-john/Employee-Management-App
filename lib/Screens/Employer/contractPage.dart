@@ -1,0 +1,162 @@
+import 'dart:developer';
+
+import 'package:employer_v1/Screens/Employer/Widgets/contractWidget.dart';
+import 'package:employer_v1/Screens/Employer/attandance.dart';
+import 'package:employer_v1/Screens/Employer/homePage.dart';
+import 'package:employer_v1/Services/firebase_database.dart';
+import 'package:flutter/material.dart';
+
+class ContractPage extends StatefulWidget {
+  String email;
+  ContractPage({super.key, required this.email});
+
+  @override
+  State<ContractPage> createState() => _ContractPageState();
+}
+
+class _ContractPageState extends State<ContractPage> {
+  List datalist = [];
+  bool Loading = true;
+  final database = DatabaseService();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    database.getContracts(widget.email).then((value) => {
+          setState(
+            () {
+              datalist = value;
+              Loading = false;
+            },
+          )
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var mediaquery = MediaQuery.of(context);
+    return RefreshIndicator(
+      displacement: 100,
+      backgroundColor: Colors.white,
+      color: Theme.of(context).colorScheme.primary,
+      strokeWidth: 4,
+      triggerMode: RefreshIndicatorTriggerMode.onEdge,
+      onRefresh: () async {
+        await Future.delayed(Duration(milliseconds: 1500));
+        database.getContracts(widget.email).then((value) => {
+              setState(
+                () {
+                  datalist = value;
+                  Loading = false;
+                },
+              )
+            });
+      },
+      child: Scaffold(
+        body: Loading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                height: mediaquery.size.height,
+                width: mediaquery.size.width,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    Theme.of(context).colorScheme.primary,
+                    Theme.of(context).colorScheme.secondary
+                  ], begin: Alignment.centerLeft, end: Alignment.centerRight),
+                ),
+                child: Column(
+                  children: [
+                    Stack(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                        ),
+                        Positioned(
+                          top: 0,
+                          child: Align(
+                              alignment: Alignment.topLeft,
+                              child: IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AttandanceScreen()));
+                                  },
+                                  icon: Icon(
+                                    Icons.class_,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ))),
+                        ),
+                        const Positioned(
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: Text(
+                              'Contracts',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 23),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/new-contract');
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        width: double.infinity,
+                        height: 60,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.transparent,
+                            border: const BorderDirectional(
+                                bottom:
+                                    BorderSide(color: Colors.white, width: 2))),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'New Contract',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 27,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return ContractWidget(
+                              contractDetails: datalist[index]);
+                        },
+                        itemCount: datalist.length,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+      ),
+    );
+  }
+}
