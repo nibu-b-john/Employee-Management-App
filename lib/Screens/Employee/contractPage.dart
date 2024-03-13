@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:employer_v1/Screens/Employee/subscribeContracts.dart';
 import 'package:employer_v1/Screens/Employer/Widgets/contractWidget.dart';
 import 'package:employer_v1/Screens/Employer/homePage.dart';
+import 'package:employer_v1/Screens/loginPage.dart';
 import 'package:employer_v1/Services/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -89,7 +90,7 @@ class _EmployeeContractPageState extends State<EmployeeContractPage> {
                         ),
                         Positioned(
                           top: 5,
-                          right: 10,
+                          left: 10,
                           child: GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -105,7 +106,24 @@ class _EmployeeContractPageState extends State<EmployeeContractPage> {
                               size: 27,
                             ),
                           ),
-                        )
+                        ),
+                        Positioned(
+                          top: 5,
+                          right: 10,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage()));
+                            },
+                            child: const Icon(
+                              Icons.exit_to_app,
+                              color: Colors.white,
+                              size: 27,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(

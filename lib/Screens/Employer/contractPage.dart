@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:employer_v1/Screens/Employer/Widgets/contractWidget.dart';
 import 'package:employer_v1/Screens/Employer/attandance.dart';
 import 'package:employer_v1/Screens/Employer/homePage.dart';
+import 'package:employer_v1/Screens/Employer/newContractPage.dart';
+import 'package:employer_v1/Screens/loginPage.dart';
 import 'package:employer_v1/Services/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -105,6 +107,22 @@ class _ContractPageState extends State<ContractPage> {
                             ),
                           ),
                         ),
+                        Positioned(
+                          child: Align(
+                              alignment: Alignment.topRight,
+                              child: IconButton(
+                                  onPressed: () {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => LoginPage()));
+                                  },
+                                  icon: Icon(
+                                    Icons.exit_to_app,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ))),
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -112,7 +130,11 @@ class _ContractPageState extends State<ContractPage> {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, '/new-contract');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    NewContract(email: widget.email)));
                       },
                       child: Container(
                         padding: const EdgeInsets.all(12),

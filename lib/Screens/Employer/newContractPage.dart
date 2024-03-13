@@ -2,7 +2,8 @@ import 'package:employer_v1/Services/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class NewContract extends StatefulWidget {
-  const NewContract({super.key});
+  String email;
+  NewContract({super.key, required this.email});
 
   @override
   State<NewContract> createState() => _NewContractState();
@@ -26,7 +27,7 @@ class _NewContractState extends State<NewContract> {
     }
 
     database.createContract(
-        "helloemployer@gmail.com",
+        widget.email,
         _namecontroller.text,
         _jobtitlecontroller.text,
         _startdatecontroller.text,
