@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class EmployeeAttendanceWidget extends StatelessWidget {
-  int number;
-  EmployeeAttendanceWidget({super.key, required this.number});
+  String employee;
+  EmployeeAttendanceWidget({super.key, required this.employee});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class EmployeeAttendanceWidget extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              'Employee $number',
+              employee,
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
           ),

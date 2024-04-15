@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:employer_v1/Screens/Employee/Widgets/contractWidget.dart';
 import 'package:employer_v1/Screens/Employee/subscribeContracts.dart';
 import 'package:employer_v1/Screens/Employer/Widgets/contractWidget.dart';
 import 'package:employer_v1/Screens/Employer/employeeListPage.dart';
@@ -7,15 +8,15 @@ import 'package:employer_v1/Screens/loginPage.dart';
 import 'package:employer_v1/Services/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class EmployerContractPage extends StatefulWidget {
+class EmployeeContractPage extends StatefulWidget {
   String email;
-  EmployerContractPage({super.key, required this.email});
+  EmployeeContractPage({super.key, required this.email});
 
   @override
-  State<EmployerContractPage> createState() => _EmployerContractPageState();
+  State<EmployeeContractPage> createState() => _EmployeeContractPageState();
 }
 
-class _EmployerContractPageState extends State<EmployerContractPage> {
+class _EmployeeContractPageState extends State<EmployeeContractPage> {
   List datalist = [];
   bool Loading = true;
   final database = DatabaseService();
@@ -107,23 +108,6 @@ class _EmployerContractPageState extends State<EmployerContractPage> {
                             ),
                           ),
                         ),
-                        Positioned(
-                          top: 5,
-                          right: 10,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginPage()));
-                            },
-                            child: const Icon(
-                              Icons.exit_to_app,
-                              color: Colors.white,
-                              size: 27,
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                     const SizedBox(
@@ -132,7 +116,8 @@ class _EmployerContractPageState extends State<EmployerContractPage> {
                     Expanded(
                       child: ListView.builder(
                         itemBuilder: (context, index) {
-                          return ContractWidget(
+                          return EmployeeContractWidget(
+                              email: widget.email,
                               contractDetails: datalist[index]);
                         },
                         itemCount: datalist.length,

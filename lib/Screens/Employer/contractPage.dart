@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:employer_v1/Screens/Employer/Widgets/contractWidget.dart';
 import 'package:employer_v1/Screens/Employer/attandance.dart';
-import 'package:employer_v1/Screens/Employer/homePage.dart';
+import 'package:employer_v1/Screens/Employer/employeeListPage.dart';
 import 'package:employer_v1/Screens/Employer/newContractPage.dart';
 import 'package:employer_v1/Screens/loginPage.dart';
 import 'package:employer_v1/Services/firebase_database.dart';
@@ -77,24 +77,24 @@ class _ContractPageState extends State<ContractPage> {
                         Container(
                           width: double.infinity,
                         ),
-                        Positioned(
-                          top: 0,
-                          child: Align(
-                              alignment: Alignment.topLeft,
-                              child: IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                AttandanceScreen()));
-                                  },
-                                  icon: Icon(
-                                    Icons.class_,
-                                    color: Colors.white,
-                                    size: 30,
-                                  ))),
-                        ),
+                        // Positioned(
+                        //   top: 0,
+                        //   child: Align(
+                        //       alignment: Alignment.topLeft,
+                        //       child: IconButton(
+                        //           onPressed: () {
+                        //             Navigator.push(
+                        //                 context,
+                        //                 MaterialPageRoute(
+                        //                     builder: (context) =>
+                        //                         AttandanceScreen()));
+                        //           },
+                        //           icon: Icon(
+                        //             Icons.class_,
+                        //             color: Colors.white,
+                        //             size: 30,
+                        //           ))),
+                        // ),
                         const Positioned(
                           child: Align(
                             alignment: Alignment.topCenter,
@@ -107,22 +107,22 @@ class _ContractPageState extends State<ContractPage> {
                             ),
                           ),
                         ),
-                        Positioned(
-                          child: Align(
-                              alignment: Alignment.topRight,
-                              child: IconButton(
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => LoginPage()));
-                                  },
-                                  icon: Icon(
-                                    Icons.exit_to_app,
-                                    color: Colors.white,
-                                    size: 30,
-                                  ))),
-                        ),
+                        // Positioned(
+                        //   child: Align(
+                        //       alignment: Alignment.topRight,
+                        //       child: IconButton(
+                        //           onPressed: () {
+                        //             Navigator.pushReplacement(
+                        //                 context,
+                        //                 MaterialPageRoute(
+                        //                     builder: (context) => LoginPage()));
+                        //           },
+                        //           icon: Icon(
+                        //             Icons.exit_to_app,
+                        //             color: Colors.white,
+                        //             size: 30,
+                        //           ))),
+                        // ),
                       ],
                     ),
                     const SizedBox(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Auth {
@@ -10,7 +12,10 @@ class Auth {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-    } catch (e) {}
+    } catch (e) {
+      log('message');
+      log(e.toString());
+    }
   }
 
   Future<void> createUserWithEmailAndPassword(

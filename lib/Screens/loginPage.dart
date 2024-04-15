@@ -1,7 +1,9 @@
 import 'dart:developer';
+import 'package:employer_v1/Screens/Construction%20head/home.dart';
 import 'package:employer_v1/Screens/Employee/contractPage.dart';
 import 'package:employer_v1/Screens/Employee/homePage.dart';
 import 'package:employer_v1/Screens/Employer/contractPage.dart';
+import 'package:employer_v1/Screens/Employer/home.dart';
 import 'package:employer_v1/Services/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +56,6 @@ class _LoginPageState extends State<LoginPage> {
     try {
       database.findEmail(email).then(
         (typeOfUser) async {
-          log(typeOfUser);
           if (typeOfUser != "Not found") {
             await Auth()
                 .signInWithEmailAndPassword(email: email, password: password);
@@ -64,13 +65,17 @@ class _LoginPageState extends State<LoginPage> {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ContractPage(email: email)));
+                      builder: (context) => EmployerHomePage(email: email)));
             } else if (typeOfUser == "Employee") {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          EmployeeContractPage(email: email)));
+                      builder: (context) => EmployeeHomePage(email: email)));
+            } else if (typeOfUser == "Construction-Head") {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ConstructionHeadHomePage()));
             }
           }
         },

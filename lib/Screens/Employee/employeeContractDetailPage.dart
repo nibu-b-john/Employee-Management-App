@@ -1,14 +1,20 @@
 import 'dart:developer';
 import 'dart:math';
 
+import 'package:employer_v1/Screens/Employee/employeeAttendance.dart';
 import 'package:employer_v1/Screens/Employer/Widgets/cardWidget.dart';
 import 'package:employer_v1/Screens/Employer/attandance.dart';
 import 'package:employer_v1/Screens/Employer/employeeListPage.dart';
 import 'package:flutter/material.dart';
 
-class ContractDetailPage extends StatelessWidget {
+class EmployeeContractDetailPage extends StatelessWidget {
   Map<String, dynamic> contractDetails;
-  ContractDetailPage({super.key, required this.contractDetails});
+  String email;
+  EmployeeContractDetailPage({
+    super.key,
+    required this.contractDetails,
+    required this.email,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -161,9 +167,9 @@ class ContractDetailPage extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => AttandanceScreen(
-                                email: contractDetails['Employer'],
+                          builder: (context) => EmployeeAttendance(
                                 code: contractDetails['Code'],
+                                email: email,
                               )));
                 },
                 child: Container(

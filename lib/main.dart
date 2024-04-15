@@ -1,13 +1,16 @@
 import 'dart:developer';
+import 'package:employer_v1/Screens/Construction%20head/home.dart';
 import 'package:employer_v1/Screens/Employee/contractPage.dart';
 import 'package:employer_v1/Screens/Employee/homePage.dart';
 import 'package:employer_v1/Screens/Employer/contractPage.dart';
-import 'package:employer_v1/Screens/Employer/homePage.dart';
+import 'package:employer_v1/Screens/Employer/employeeListPage.dart';
+import 'package:employer_v1/Screens/Employer/home.dart';
 import 'package:employer_v1/Screens/Employer/newContractPage.dart';
 import 'package:employer_v1/Screens/loginPage.dart';
 import 'package:employer_v1/Screens/Employee/personalDetails.dart';
 import 'package:employer_v1/Screens/registerPage.dart';
 import 'package:employer_v1/notifications.dart';
+import 'package:employer_v1/razorpay.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -50,12 +53,20 @@ class MyApp extends StatelessWidget {
             secondary: Color.fromARGB(255, 8, 8, 8)),
       ),
       debugShowCheckedModeBanner: false,
+      // home: EmployeeHomePage(
+      //   email: "sibin@gmail.com",
+      // ),
+      // home: EmployerHomePage(
+      //   email: "nair@gmail.com",
+      // ),
+      // home: ConstructionHeadHomePage(),
+      // home: RazorPay(),
       home: LoginPage(),
       routes: {
         '/register': ((context) => const RegisterPage()),
         '/login': ((context) => const LoginPage()),
         // '/employer-home': ((context) => ContractPage()),
-        '/employee-home': ((context) => const EmployeeHomePage()),
+        // '/employee-home': ((context) => const EmployeeHomePage()),
         // '/new-contract': ((context) => const NewContract()),
         // '/home':
       },

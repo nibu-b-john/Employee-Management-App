@@ -18,6 +18,9 @@ class _NewContractState extends State<NewContract> {
   final _hourlyratecontroller = TextEditingController();
   final _benefitscontroller = TextEditingController();
   final _descriptioncontroller = TextEditingController();
+  final ddController = TextEditingController();
+  final mmController = TextEditingController();
+  final yyController = TextEditingController();
 
   final database = DatabaseService();
   void onSubmit() {
@@ -30,7 +33,9 @@ class _NewContractState extends State<NewContract> {
         widget.email,
         _namecontroller.text,
         _jobtitlecontroller.text,
-        _startdatecontroller.text,
+        ddController.text,
+        mmController.text,
+        yyController.text,
         _enddatecontroller.text,
         _hourlyratecontroller.text,
         _benefitscontroller.text,
@@ -55,6 +60,55 @@ class _NewContractState extends State<NewContract> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    Widget _textField({first, last, size, boxController}) {
+      return SizedBox(
+        height: size.height * 0.0625,
+        width: size.width * 0.1715,
+        child: TextField(
+          controller: boxController,
+          autofocus: true,
+          onChanged: (value) {
+            if (value.isEmpty && first == true) {
+              FocusScope.of(context).unfocus();
+            }
+            if (value.length == 4 && last == true) {
+              FocusScope.of(context).unfocus();
+            }
+
+            if (value.length == 2 && last == false) {
+              FocusScope.of(context).nextFocus();
+            }
+            if (value.isEmpty && last == false && first == false) {
+              FocusScope.of(context).previousFocus();
+            }
+            if (value.isEmpty && last == true) {
+              FocusScope.of(context).previousFocus();
+            }
+          },
+          showCursor: false,
+          readOnly: false,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+          keyboardType: TextInputType.number,
+          maxLength: 4,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white.withOpacity(0.3),
+            counter: const Offstage(),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    width: 1, color: Theme.of(context).colorScheme.primary),
+                borderRadius: BorderRadius.circular(10)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 2, color: Colors.white),
+                borderRadius: BorderRadius.circular(10)),
+          ),
+        ),
+      );
+    }
+
     var mediaquery = MediaQuery.of(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -194,52 +248,84 @@ class _NewContractState extends State<NewContract> {
                         height: mediaquery.size.height * 0.04,
                       ),
                       //**************Start Date*******************//
-                      TextFormField(
-                        onChanged: (value) {},
-                        controller: _startdatecontroller,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Date field is empty!';
-                          } else {
-                            return null;
-                          }
-                        },
-                        keyboardType: TextInputType.datetime,
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimary),
-                        cursorColor: Theme.of(context).colorScheme.onPrimary,
-                        autocorrect: false,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide:
-                                const BorderSide(color: Colors.red, width: 1.0),
+                      // TextFormField(
+                      //   onChanged: (value) {},
+                      //   controller: _startdatecontroller,
+                      // validator: (value) {
+                      //   if (value!.isEmpty) {
+                      //     return 'Date field is empty!';
+                      //   } else {
+                      //     return null;
+                      //   }
+                      // },
+                      //   keyboardType: TextInputType.datetime,
+                      //   style: TextStyle(
+                      //       color: Theme.of(context).colorScheme.onPrimary),
+                      //   cursorColor: Theme.of(context).colorScheme.onPrimary,
+                      //   autocorrect: false,
+                      //   textInputAction: TextInputAction.next,
+                      //   decoration: InputDecoration(
+                      //     errorBorder: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(15),
+                      //       borderSide:
+                      //           const BorderSide(color: Colors.red, width: 1.0),
+                      //     ),
+                      //     focusedErrorBorder: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(15),
+                      //       borderSide:
+                      //           const BorderSide(color: Colors.red, width: 1.0),
+                      //     ),
+                      //     focusedBorder: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(15),
+                      //       borderSide: const BorderSide(
+                      //           color: Colors.grey, width: 0.0),
+                      //     ),
+                      //     enabledBorder: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(15),
+                      //       borderSide: const BorderSide(
+                      //           color: Colors.grey, width: 0.0),
+                      //     ),
+                      //     filled: true,
+                      //     fillColor: Colors.white.withOpacity(0.27),
+                      //     hintText: 'Start Date',
+                      //     hintStyle: const TextStyle(color: Colors.white),
+                      //     contentPadding: const EdgeInsets.symmetric(
+                      //         vertical: 10.0, horizontal: 20.0),
+                      //   ),
+                      // ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Start Date:',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide:
-                                const BorderSide(color: Colors.red, width: 1.0),
+                          SizedBox(
+                            width: 10,
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 0.0),
+                          _textField(
+                              first: true,
+                              last: false,
+                              size: size,
+                              boxController: ddController),
+                          SizedBox(
+                            width: 10,
                           ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 0.0),
+                          _textField(
+                              first: false,
+                              last: false,
+                              size: size,
+                              boxController: mmController),
+                          SizedBox(
+                            width: 10,
                           ),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.27),
-                          hintText: 'Start Date',
-                          hintStyle: const TextStyle(color: Colors.white),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 20.0),
-                        ),
+                          _textField(
+                              first: false,
+                              last: true,
+                              size: size,
+                              boxController: yyController),
+                        ],
                       ),
-
                       SizedBox(
                         height: mediaquery.size.height * 0.04,
                       ),
@@ -250,11 +336,14 @@ class _NewContractState extends State<NewContract> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Date field is empty!';
+                          } else if (value.contains(RegExp(r'[a-z]')) ||
+                              value.contains(RegExp(r'[A-Z]'))) {
+                            return 'Enter a Number';
                           } else {
                             return null;
                           }
                         },
-                        keyboardType: TextInputType.datetime,
+                        keyboardType: TextInputType.number,
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary),
                         cursorColor: Theme.of(context).colorScheme.onPrimary,
@@ -283,7 +372,7 @@ class _NewContractState extends State<NewContract> {
                           ),
                           filled: true,
                           fillColor: Colors.white.withOpacity(0.27),
-                          hintText: 'End Date',
+                          hintText: 'Number of Days',
                           hintStyle: const TextStyle(color: Colors.white),
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 20.0),

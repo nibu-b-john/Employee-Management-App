@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:employer_v1/Screens/Construction%20head/Widgets/headContractWidget.dart';
 import 'package:employer_v1/Screens/Employee/subscribeContracts.dart';
 import 'package:employer_v1/Screens/Employer/Widgets/contractWidget.dart';
 import 'package:employer_v1/Screens/Employer/employeeListPage.dart';
@@ -7,15 +8,16 @@ import 'package:employer_v1/Screens/loginPage.dart';
 import 'package:employer_v1/Services/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class EmployerContractPage extends StatefulWidget {
-  String email;
-  EmployerContractPage({super.key, required this.email});
+class HeadContractorContractPage extends StatefulWidget {
+  HeadContractorContractPage({super.key});
 
   @override
-  State<EmployerContractPage> createState() => _EmployerContractPageState();
+  State<HeadContractorContractPage> createState() =>
+      _HeadContractorContractPageState();
 }
 
-class _EmployerContractPageState extends State<EmployerContractPage> {
+class _HeadContractorContractPageState
+    extends State<HeadContractorContractPage> {
   List datalist = [];
   bool Loading = true;
   final database = DatabaseService();
@@ -23,7 +25,7 @@ class _EmployerContractPageState extends State<EmployerContractPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    database.getParticularContracts(widget.email).then((value) => {
+    database.getAllContracts().then((value) => {
           setState(
             () {
               datalist = value;
@@ -44,7 +46,7 @@ class _EmployerContractPageState extends State<EmployerContractPage> {
       triggerMode: RefreshIndicatorTriggerMode.onEdge,
       onRefresh: () async {
         await Future.delayed(Duration(milliseconds: 1500));
-        database.getParticularContracts(widget.email).then((value) => {
+        database.getAllContracts().then((value) => {
               setState(
                 () {
                   datalist = value;
@@ -88,42 +90,6 @@ class _EmployerContractPageState extends State<EmployerContractPage> {
                             ),
                           ),
                         ),
-                        Positioned(
-                          top: 5,
-                          left: 10,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SubscribeToContracts(
-                                              email: widget.email)));
-                            },
-                            child: const Icon(
-                              Icons.add,
-                              color: Colors.white,
-                              size: 27,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 5,
-                          right: 10,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginPage()));
-                            },
-                            child: const Icon(
-                              Icons.exit_to_app,
-                              color: Colors.white,
-                              size: 27,
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                     const SizedBox(
@@ -132,7 +98,7 @@ class _EmployerContractPageState extends State<EmployerContractPage> {
                     Expanded(
                       child: ListView.builder(
                         itemBuilder: (context, index) {
-                          return ContractWidget(
+                          return HeadContractWidget(
                               contractDetails: datalist[index]);
                         },
                         itemCount: datalist.length,

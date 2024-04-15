@@ -1,12 +1,10 @@
 import 'dart:developer';
 
-import 'package:employer_v1/Screens/Employee/contractPage.dart';
-import 'package:employer_v1/Screens/Employee/employeeContractPage.dart';
-import 'package:employer_v1/Screens/Employee/employeePaymentPage.dart';
-import 'package:employer_v1/Screens/Employee/employeeProfile.dart';
 import 'package:employer_v1/Screens/Employer/attandance.dart';
 import 'package:employer_v1/Screens/Employer/contractPage.dart';
 import 'package:employer_v1/Screens/Employer/employeeListPage.dart';
+import 'package:employer_v1/Screens/Employer/employerPayment.dart';
+import 'package:employer_v1/Screens/Employer/freelancer_search.dart';
 import 'package:employer_v1/Screens/Employer/newContractPage.dart';
 import 'package:employer_v1/Screens/Employer/profile.dart';
 import 'package:employer_v1/Services/firebase_database.dart';
@@ -14,9 +12,9 @@ import 'package:employer_v1/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class EmployeeHomePage extends StatelessWidget {
+class EmployerHomePage extends StatelessWidget {
   String email;
-  EmployeeHomePage({super.key, required this.email});
+  EmployerHomePage({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -56,17 +54,45 @@ class EmployeeHomePage extends StatelessWidget {
         ),
         padding: EdgeInsets.all(20),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: 40,
+              height: 20,
             ),
             InkWell(
               onTap: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            EmployeeContractPage(email: email)));
+                        builder: (context) => ProfileScreen(email: email)));
+              },
+              child: Container(
+                height: 80,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 2),
+                    borderRadius: BorderRadius.circular(15)),
+                child: const Center(
+                  child: Text(
+                    'Profile',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ContractPage(email: email)));
               },
               child: Container(
                 height: 80,
@@ -95,7 +121,7 @@ class EmployeeHomePage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            EmployeeProfileScreen(email: email)));
+                            EmployeeListPage(code: email, all: true)));
               },
               child: Container(
                 height: 80,
@@ -105,7 +131,33 @@ class EmployeeHomePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15)),
                 child: const Center(
                   child: Text(
-                    'Profile',
+                    'Worker Details',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => FreelancerSearch()));
+              },
+              child: Container(
+                height: 80,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 2),
+                    borderRadius: BorderRadius.circular(15)),
+                child: const Center(
+                  child: Text(
+                    'Freelancer Serach',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -124,7 +176,7 @@ class EmployeeHomePage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            EmployeePaymentPage(email: email)));
+                            EmployerPaymentPage(email: email)));
               },
               child: Container(
                 height: 80,

@@ -30,9 +30,10 @@ class _SubscribeToContractsState extends State<SubscribeToContracts> {
   final _searchcontroller = TextEditingController();
   final database = DatabaseService();
   void onSubmit() {
-    database
-        .updateEmployeesContract(_searchcontroller.text, widget.email)
-        .then((value) => showInSnackBar(value.toString()));
+    database.updateEmployeesContract(_searchcontroller.text, widget.email).then(
+        (value) => value == null
+            ? showInSnackBar("Contract not found")
+            : showInSnackBar(value.toString()));
   }
 
 // s5uVt

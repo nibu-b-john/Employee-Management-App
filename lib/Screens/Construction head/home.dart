@@ -1,12 +1,12 @@
 import 'dart:developer';
 
-import 'package:employer_v1/Screens/Employee/contractPage.dart';
-import 'package:employer_v1/Screens/Employee/employeeContractPage.dart';
-import 'package:employer_v1/Screens/Employee/employeePaymentPage.dart';
-import 'package:employer_v1/Screens/Employee/employeeProfile.dart';
+import 'package:employer_v1/Screens/Construction%20head/headContractPage.dart';
+import 'package:employer_v1/Screens/Construction%20head/headPaymentPage.dart';
+import 'package:employer_v1/Screens/Construction%20head/headWorkerSearch.dart';
 import 'package:employer_v1/Screens/Employer/attandance.dart';
 import 'package:employer_v1/Screens/Employer/contractPage.dart';
 import 'package:employer_v1/Screens/Employer/employeeListPage.dart';
+import 'package:employer_v1/Screens/Employer/freelancer_search.dart';
 import 'package:employer_v1/Screens/Employer/newContractPage.dart';
 import 'package:employer_v1/Screens/Employer/profile.dart';
 import 'package:employer_v1/Services/firebase_database.dart';
@@ -14,9 +14,8 @@ import 'package:employer_v1/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class EmployeeHomePage extends StatelessWidget {
-  String email;
-  EmployeeHomePage({super.key, required this.email});
+class ConstructionHeadHomePage extends StatelessWidget {
+  ConstructionHeadHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,17 +55,73 @@ class EmployeeHomePage extends StatelessWidget {
         ),
         padding: EdgeInsets.all(20),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: 40,
+              height: 20,
+            ),
+            // InkWell(
+            //   onTap: () {
+            //     Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => ProfileScreen(email: email)));
+            //   },
+            //   child: Container(
+            //     height: 80,
+            //     width: double.infinity,
+            //     decoration: BoxDecoration(
+            //         border: Border.all(color: Colors.white, width: 2),
+            //         borderRadius: BorderRadius.circular(15)),
+            //     child: const Center(
+            //       child: Text(
+            //         'Profile',
+            //         style: TextStyle(
+            //             color: Colors.white,
+            //             fontSize: 20,
+            //             fontWeight: FontWeight.bold,
+            //             letterSpacing: 2),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            SizedBox(
+              height: 20,
+            ),
+            // InkWell(
+            //   onTap: () {
+            //     Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => ContractPage(email: email)));
+            //   },
+            //   child: Container(
+            //     height: 80,
+            //     width: double.infinity,
+            //     decoration: BoxDecoration(
+            //         border: Border.all(color: Colors.white, width: 2),
+            //         borderRadius: BorderRadius.circular(15)),
+            //     child: const Center(
+            //       child: Text(
+            //         'Work Details',
+            //         style: TextStyle(
+            //             color: Colors.white,
+            //             fontSize: 20,
+            //             fontWeight: FontWeight.bold,
+            //             letterSpacing: 2),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            SizedBox(
+              height: 20,
             ),
             InkWell(
               onTap: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            EmployeeContractPage(email: email)));
+                        builder: (context) => HeadContractorContractPage()));
               },
               child: Container(
                 height: 80,
@@ -76,7 +131,7 @@ class EmployeeHomePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15)),
                 child: const Center(
                   child: Text(
-                    'Work Details',
+                    'Contracts',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -94,8 +149,7 @@ class EmployeeHomePage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            EmployeeProfileScreen(email: email)));
+                        builder: (_) => ConstructionHeadWorkerSearch()));
               },
               child: Container(
                 height: 80,
@@ -105,7 +159,7 @@ class EmployeeHomePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15)),
                 child: const Center(
                   child: Text(
-                    'Profile',
+                    'Worker Search',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -120,11 +174,8 @@ class EmployeeHomePage extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            EmployeePaymentPage(email: email)));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HeadPaymentPage()));
               },
               child: Container(
                 height: 80,

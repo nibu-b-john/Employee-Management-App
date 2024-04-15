@@ -1,21 +1,23 @@
 import 'dart:developer';
 
-import 'package:employer_v1/Screens/Employee/subscribeContracts.dart';
 import 'package:employer_v1/Screens/Employer/Widgets/contractWidget.dart';
+import 'package:employer_v1/Screens/Employer/Widgets/paymentContractWidget.dart';
+import 'package:employer_v1/Screens/Employer/attandance.dart';
 import 'package:employer_v1/Screens/Employer/employeeListPage.dart';
+import 'package:employer_v1/Screens/Employer/newContractPage.dart';
 import 'package:employer_v1/Screens/loginPage.dart';
 import 'package:employer_v1/Services/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class EmployerContractPage extends StatefulWidget {
+class EmployerPaymentPage extends StatefulWidget {
   String email;
-  EmployerContractPage({super.key, required this.email});
+  EmployerPaymentPage({super.key, required this.email});
 
   @override
-  State<EmployerContractPage> createState() => _EmployerContractPageState();
+  State<EmployerPaymentPage> createState() => _EmployerPaymentPageState();
 }
 
-class _EmployerContractPageState extends State<EmployerContractPage> {
+class _EmployerPaymentPageState extends State<EmployerPaymentPage> {
   List datalist = [];
   bool Loading = true;
   final database = DatabaseService();
@@ -23,7 +25,7 @@ class _EmployerContractPageState extends State<EmployerContractPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    database.getParticularContracts(widget.email).then((value) => {
+    database.getContracts(widget.email).then((value) => {
           setState(
             () {
               datalist = value;
@@ -44,7 +46,7 @@ class _EmployerContractPageState extends State<EmployerContractPage> {
       triggerMode: RefreshIndicatorTriggerMode.onEdge,
       onRefresh: () async {
         await Future.delayed(Duration(milliseconds: 1500));
-        database.getParticularContracts(widget.email).then((value) => {
+        database.getContracts(widget.email).then((value) => {
               setState(
                 () {
                   datalist = value;
@@ -76,11 +78,29 @@ class _EmployerContractPageState extends State<EmployerContractPage> {
                         Container(
                           width: double.infinity,
                         ),
+                        // Positioned(
+                        //   top: 0,
+                        //   child: Align(
+                        //       alignment: Alignment.topLeft,
+                        //       child: IconButton(
+                        //           onPressed: () {
+                        //             Navigator.push(
+                        //                 context,
+                        //                 MaterialPageRoute(
+                        //                     builder: (context) =>
+                        //                         AttandanceScreen()));
+                        //           },
+                        //           icon: Icon(
+                        //             Icons.class_,
+                        //             color: Colors.white,
+                        //             size: 30,
+                        //           ))),
+                        // ),
                         const Positioned(
                           child: Align(
                             alignment: Alignment.topCenter,
                             child: Text(
-                              'Contracts',
+                              'Select a Contract',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -88,42 +108,22 @@ class _EmployerContractPageState extends State<EmployerContractPage> {
                             ),
                           ),
                         ),
-                        Positioned(
-                          top: 5,
-                          left: 10,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SubscribeToContracts(
-                                              email: widget.email)));
-                            },
-                            child: const Icon(
-                              Icons.add,
-                              color: Colors.white,
-                              size: 27,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 5,
-                          right: 10,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginPage()));
-                            },
-                            child: const Icon(
-                              Icons.exit_to_app,
-                              color: Colors.white,
-                              size: 27,
-                            ),
-                          ),
-                        ),
+                        // Positioned(
+                        //   child: Align(
+                        //       alignment: Alignment.topRight,
+                        //       child: IconButton(
+                        //           onPressed: () {
+                        //             Navigator.pushReplacement(
+                        //                 context,
+                        //                 MaterialPageRoute(
+                        //                     builder: (context) => LoginPage()));
+                        //           },
+                        //           icon: Icon(
+                        //             Icons.exit_to_app,
+                        //             color: Colors.white,
+                        //             size: 30,
+                        //           ))),
+                        // ),
                       ],
                     ),
                     const SizedBox(
@@ -132,7 +132,7 @@ class _EmployerContractPageState extends State<EmployerContractPage> {
                     Expanded(
                       child: ListView.builder(
                         itemBuilder: (context, index) {
-                          return ContractWidget(
+                          return PaymentContractWidget(
                               contractDetails: datalist[index]);
                         },
                         itemCount: datalist.length,

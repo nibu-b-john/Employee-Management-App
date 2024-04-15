@@ -8,30 +8,41 @@ import 'package:flutter/src/widgets/framework.dart';
 
 import '../../auth.dart';
 
-class EmployerHomePage extends StatefulWidget {
+class EmployeeListPage extends StatefulWidget {
   String code;
-  EmployerHomePage({super.key, required this.code});
+  bool all;
+  EmployeeListPage({super.key, required this.code, this.all = false});
 
   @override
-  State<EmployerHomePage> createState() => _EmployerHomePageState();
+  State<EmployeeListPage> createState() => _EmployeeListPageState();
 }
 
-class _EmployerHomePageState extends State<EmployerHomePage> {
+class _EmployeeListPageState extends State<EmployeeListPage> {
   bool Loading = true;
   List datalist = [];
 
   final database = DatabaseService();
   @override
   void initState() {
-    database.getEmployees(widget.code).then((value) => {
-          log(value.toString()),
-          setState(
-            () {
-              datalist = value;
-              Loading = false;
-            },
-          )
-        });
+    if (widget.all) {
+      database.getEmployeesWithEmployerName(widget.code).then((value) => {
+            setState(
+              () {
+                datalist = value;
+                Loading = false;
+              },
+            )
+          });
+    } else {
+      database.getEmployeesWithCode(widget.code).then((value) => {
+            setState(
+              () {
+                datalist = value;
+                Loading = false;
+              },
+            )
+          });
+    }
     super.initState();
   }
 
@@ -95,19 +106,31 @@ class _EmployerHomePageState extends State<EmployerHomePage> {
                 itemBuilder: (context, index) => Column(
                   children: [
                     BusinessCard(
-                      name: datalist[index]['name'],
-                      phone_number: datalist[index]['phone-number'],
-                      designation: datalist[index]['designation'],
-                      district: datalist[index]['district'],
-                      company: datalist[index]['company'],
-                      state: datalist[index]['state'],
+                      name: widget.all
+                          ? datalist[index]['name']
+                          : datalist[1][index]['name'],
+                      phone_number: widget.all
+                          ? datalist[index]['phone-number']
+                          : datalist[1][index]['phone-number'],
+                      designation: widget.all
+                          ? datalist[index]['designation']
+                          : datalist[1][index]['designation'],
+                      district: widget.all
+                          ? datalist[index]['district']
+                          : datalist[1][index]['district'],
+                      company: widget.all
+                          ? datalist[index]['company']
+                          : datalist[1][index]['company'],
+                      state: widget.all
+                          ? datalist[index]['state']
+                          : datalist[1][index]['state'],
                     ),
                     SizedBox(
                       height: 20,
                     )
                   ],
                 ),
-                itemCount: datalist.length,
+                itemCount: widget.all ? datalist.length : datalist[1].length,
               )),
     );
   }
