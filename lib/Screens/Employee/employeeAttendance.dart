@@ -166,7 +166,7 @@ class _EmployeeAttendanceState extends State<EmployeeAttendance> {
                           ),
                         ),
                         Text(
-                          "Attendance Percentage:  ${(((employeeAttendance.where((e) => e == true)).length / employeeAttendance.length) * 100).toStringAsFixed(2)}%",
+                          "Percentage:  ${(((employeeAttendance.where((e) => e == true)).length / employeeAttendance.length) * 100).toStringAsFixed(2)}%",
                           style: const TextStyle(
                             fontSize: 20.0,
                             color: Colors.white,

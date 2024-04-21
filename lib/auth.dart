@@ -1,20 +1,30 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 
 class Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User? get currentUser => _firebaseAuth.currentUser;
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
-  Future<void> signInWithEmailAndPassword(
+  Future<List> signInWithEmailAndPassword(
       {required String email, required String password}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-    } catch (e) {
-      log('message');
-      log(e.toString());
+      return [true, 'Successfully logged In!'];
+    } on FirebaseException catch (e) {
+      return [false, e.message];
+    }
+  }
+
+  Future<List> resetEmailLink(String email) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      return [true, 'Password reset link sent! Check your email'];
+    } on FirebaseException catch (e) {
+      return [false, e.message];
     }
   }
 

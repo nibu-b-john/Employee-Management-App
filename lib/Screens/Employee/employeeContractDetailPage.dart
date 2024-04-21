@@ -99,7 +99,9 @@ class EmployeeContractDetailPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CardWidget(
-                  title: 'Employer', description: contractDetails['Employer']),
+                  title: 'Employer',
+                  description:
+                      contractDetails['Employer'].split('@')[0].toUpperCase()),
               const SizedBox(
                 height: 40,
               ),

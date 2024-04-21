@@ -2,9 +2,11 @@ import 'dart:developer';
 import 'package:employer_v1/Screens/Construction%20head/home.dart';
 import 'package:employer_v1/Screens/Employee/contractPage.dart';
 import 'package:employer_v1/Screens/Employee/homePage.dart';
+import 'package:employer_v1/Screens/Employee/subscribeContracts.dart';
 import 'package:employer_v1/Screens/Employer/contractPage.dart';
 import 'package:employer_v1/Screens/Employer/home.dart';
 import 'package:employer_v1/Services/firebase_database.dart';
+import 'package:employer_v1/resetEmail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../auth.dart';
@@ -51,32 +53,50 @@ class _LoginPageState extends State<LoginPage> {
     _passwordController.clear();
   }
 
+  final database = DatabaseService();
   Future<void> signInWithEmailAndPassword(String email, String password) async {
-    final database = DatabaseService();
     try {
       database.findEmail(email).then(
         (typeOfUser) async {
           if (typeOfUser != "Not found") {
             await Auth()
-                .signInWithEmailAndPassword(email: email, password: password);
-            NotificationService().showNotification(
-                title: "Logged In", body: "Welcome ${email.split('@')[0]}");
-            if (typeOfUser == "Employer") {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => EmployerHomePage(email: email)));
-            } else if (typeOfUser == "Employee") {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => EmployeeHomePage(email: email)));
-            } else if (typeOfUser == "Construction-Head") {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ConstructionHeadHomePage()));
-            }
+                .signInWithEmailAndPassword(email: email, password: password)
+                .then((val) {
+              if (val[0]) {
+                NotificationService().showNotification(
+                    title: "Logged In", body: "Welcome ${email.split('@')[0]}");
+                if (typeOfUser == "Employer") {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              EmployerHomePage(email: email)));
+                } else if (typeOfUser == "Employee") {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              EmployeeHomePage(email: email)));
+                } else if (typeOfUser == "Construction-Head") {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ConstructionHeadHomePage()));
+                }
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Center(
+                      child: Text(
+                        val[1],
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            });
           }
         },
       );
@@ -90,6 +110,45 @@ class _LoginPageState extends State<LoginPage> {
   final _form = GlobalKey<FormState>();
   final _emailcontroller = TextEditingController();
   final _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (Auth().currentUser != null) {
+      String email = Auth().currentUser!.email.toString();
+
+      try {
+        database.findEmail(email).then(
+          (typeOfUser) async {
+            if (typeOfUser != "Not found") {
+              NotificationService().showNotification(
+                  title: "Logged In", body: "Welcome ${email.split('@')[0]}");
+              if (typeOfUser == "Employer") {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EmployerHomePage(email: email)));
+              } else if (typeOfUser == "Employee") {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EmployeeHomePage(email: email)));
+              } else if (typeOfUser == "Construction-Head") {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ConstructionHeadHomePage()));
+              }
+            }
+          },
+        );
+      } on FirebaseAuthException catch (e) {
+        log(e.toString());
+        showInSnackBar(e.code);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -277,7 +336,20 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(
-                  height: mediaquery.size.height * 0.04,
+                  height: mediaquery.size.height * 0.02,
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => ResetEmail()));
+                  },
+                  child: Text(
+                    'Forgot Password',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                SizedBox(
+                  height: mediaquery.size.height * 0.02,
                 ),
                 const Text(
                   'Not Registered yet, register below!',

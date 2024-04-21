@@ -43,6 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
     if (dropdownvalue != 'Employer' &&
         dropdownvalue != 'Freelancer' &&
+        dropdownvalue != 'Employee' &&
         dropdownvalue != 'Construction-Head') {
       showInSnackBar("Choose a valid type!");
       return;
@@ -72,6 +73,13 @@ class _RegisterPageState extends State<RegisterPage> {
               builder: (context) => PersonalDetailsEmployee(
                   email: email, dropdownvalue: "Employee")),
         );
+      } else if (dropdownvalue == "Employee") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PersonalDetailsEmployee(
+                  email: email, dropdownvalue: "Employee")),
+        );
       } else if (dropdownvalue == 'Construction-Head') {
         Navigator.push(
           context,
@@ -91,7 +99,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _passwordController = TextEditingController();
   String? dropdownvalue;
 
-  var items = ['Employer', 'Freelancer', 'Construction-Head'];
+  var items = ['Employer', 'Freelancer', 'Construction-Head', "Employee"];
 
   @override
   Widget build(BuildContext context) {

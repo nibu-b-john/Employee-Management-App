@@ -94,7 +94,9 @@ class HeadContractDetailPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CardWidget(
-                  title: 'Employer', description: contractDetails['Employer']),
+                  title: 'Employer',
+                  description:
+                      contractDetails['Employer'].split('@')[0].toUpperCase()),
               const SizedBox(
                 height: 40,
               ),
@@ -164,9 +166,11 @@ class HeadContractDetailPage extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) =>
                               ConstructionHeadWorkerAttendanceSearch(
-                                  code: contractDetails['Code'],
-                                  email: contractDetails['Employer'],
-                                  employees: contractDetails['Employees'])));
+                                code: contractDetails['Code'],
+                                email: contractDetails['Employer'],
+                                employees: contractDetails['Employees'],
+                                isHead: true,
+                              )));
                 },
                 child: Container(
                   width: double.infinity,

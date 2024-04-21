@@ -511,7 +511,7 @@ class _OrderConfirmState extends State<OrderConfirm> {
                           'send_sms_hash': true,
                           'prefill': {
                             'contact': '9481089140',
-                            'email': 'test@razorpay.com'
+                            'email': 'success@razoroay'
                           },
                           'external': {
                             'wallets': ['paytm']

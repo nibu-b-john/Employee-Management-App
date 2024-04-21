@@ -18,7 +18,7 @@ class _EmployePpaymenDdetailPageState
     var mediaquery = MediaQuery.of(context);
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.only(),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
             Theme.of(context).colorScheme.primary,

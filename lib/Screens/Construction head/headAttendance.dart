@@ -84,18 +84,22 @@ class _HeadAttendanceState extends State<HeadAttendance> {
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: employeeAttendance.length,
-                itemBuilder: (_, index) => Column(
-                  children: [
-                    EmployeeAttendanceWidget(
-                      absent: !employeeAttendance[index],
-                      date: (DateTime(int.parse(startDate[2]),
-                              int.parse(startDate[1]), int.parse(startDate[0]))
-                          .add(Duration(days: index))),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    )
-                  ],
+                itemBuilder: (_, index) => SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      EmployeeAttendanceWidget(
+                        absent: !employeeAttendance[index],
+                        date: (DateTime(
+                                int.parse(startDate[2]),
+                                int.parse(startDate[1]),
+                                int.parse(startDate[0]))
+                            .add(Duration(days: index))),
+                      ),
+                      SizedBox(
+                        height: 40,
+                      )
+                    ],
+                  ),
                 ),
               ),
               Stack(
@@ -167,7 +171,7 @@ class _HeadAttendanceState extends State<HeadAttendance> {
                           ),
                         ),
                         Text(
-                          "Attendance Percentage:  ${(((employeeAttendance.where((e) => e == true)).length / employeeAttendance.length) * 100).toStringAsFixed(2)}%",
+                          "Percentage:  ${(((employeeAttendance.where((e) => e == true)).length / employeeAttendance.length) * 100).toStringAsFixed(2)}%",
                           style: const TextStyle(
                             fontSize: 20.0,
                             color: Colors.white,

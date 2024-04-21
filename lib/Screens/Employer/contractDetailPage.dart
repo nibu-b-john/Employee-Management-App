@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:math';
 
+import 'package:employer_v1/Screens/Construction%20head/headWorkerAttendanceSearch.dart';
 import 'package:employer_v1/Screens/Employer/Widgets/cardWidget.dart';
 import 'package:employer_v1/Screens/Employer/attandance.dart';
 import 'package:employer_v1/Screens/Employer/employeeListPage.dart';
@@ -93,7 +94,9 @@ class ContractDetailPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CardWidget(
-                  title: 'Employer', description: contractDetails['Employer']),
+                  title: 'Employer',
+                  description:
+                      contractDetails['Employer'].split('@')[0].toUpperCase()),
               const SizedBox(
                 height: 40,
               ),
@@ -158,13 +161,22 @@ class ContractDetailPage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => AttandanceScreen(
+                  //               email: contractDetails['Employer'],
+                  //               code: contractDetails['Code'],
+                  //             )));
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => AttandanceScreen(
-                                email: contractDetails['Employer'],
-                                code: contractDetails['Code'],
-                              )));
+                          builder: (context) =>
+                              ConstructionHeadWorkerAttendanceSearch(
+                                  code: contractDetails['Code'],
+                                  email: contractDetails['Employer'],
+                                  employees: contractDetails['Employees'],
+                                  isHead: false)));
                 },
                 child: Container(
                   width: double.infinity,

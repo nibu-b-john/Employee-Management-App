@@ -3,7 +3,6 @@ import 'package:employer_v1/payment_configurations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pay/pay.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:upi_payment_flutter/upi_payment_flutter.dart';
 import 'package:flutter/services.dart';

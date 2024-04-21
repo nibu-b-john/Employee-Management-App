@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'dart:developer' as l;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:developer' as l;
 
 class DatabaseService {
   final db = FirebaseFirestore.instance;
@@ -70,6 +69,20 @@ class DatabaseService {
 
     db.collection("Employer").add(data).then((documentSnapshot) =>
         print("Added Data with ID: ${documentSnapshot.id}"));
+  }
+
+  void updateEmployeeProfile(Map data) async {
+    final querySnapshot = await db
+        .collection("Employee")
+        .where("email", isEqualTo: data['email'])
+        .get();
+    String docId = querySnapshot.docs.first.id.toString();
+    await db.collection("Employee").doc(docId).update({
+      "name": data['name'],
+      "age": data['age'],
+      "company": data['company'],
+      "phone-number": data['phone-number'],
+    });
   }
 
   Future<String> findEmail(String email) async {

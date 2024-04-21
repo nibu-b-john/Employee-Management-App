@@ -1,8 +1,11 @@
 import 'dart:developer';
 
+import 'package:employer_v1/Screens/Employee/editingPage.dart';
 import 'package:employer_v1/Screens/Employer/Widgets/cardWidget.dart';
 import 'package:employer_v1/Services/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class EmployeeProfileScreen extends StatefulWidget {
   String email;
@@ -51,15 +54,42 @@ class _EmployeeProfileScreenState extends State<EmployeeProfileScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          border: Border.all(color: Colors.white, width: 3)),
-                      child: const CircleAvatar(
-                        radius: 100, //we give the image a radius of 50
-                        backgroundImage: NetworkImage(
-                            'https://webstockreview.net/images/male-clipart-professional-man-3.jpg'),
-                      ),
+                    Stack(
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                        ),
+                        Center(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                border:
+                                    Border.all(color: Colors.white, width: 3)),
+                            child: const CircleAvatar(
+                              radius: 100, //we give the image a radius of 50
+                              backgroundImage: NetworkImage(
+                                  'https://webstockreview.net/images/male-clipart-professional-man-3.jpg'),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          right: 0,
+                          top: 10,
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            EditingPage(details: datalist[0])));
+                              },
+                              icon: Icon(
+                                Icons.edit,
+                                size: 30,
+                                color: Colors.white,
+                              )),
+                        )
+                      ],
                     ),
                     const SizedBox(
                       height: 40,

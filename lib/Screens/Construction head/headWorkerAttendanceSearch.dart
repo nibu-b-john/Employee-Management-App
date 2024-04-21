@@ -1,6 +1,7 @@
 import 'package:employer_v1/Screens/Construction%20head/headAttendance.dart';
 import 'package:employer_v1/Screens/Employee/employeeAttendance.dart';
 import 'package:employer_v1/Screens/Employee/employeeProfile.dart';
+import 'package:employer_v1/Screens/Employer/attandance.dart';
 import 'package:employer_v1/Services/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as l;
@@ -9,12 +10,14 @@ class ConstructionHeadWorkerAttendanceSearch extends StatefulWidget {
   String code;
   String email;
   List employees;
-  ConstructionHeadWorkerAttendanceSearch(
-      {Key? key,
-      required this.code,
-      required this.email,
-      required this.employees})
-      : super(key: key);
+  bool isHead;
+  ConstructionHeadWorkerAttendanceSearch({
+    Key? key,
+    required this.code,
+    required this.email,
+    required this.employees,
+    required this.isHead,
+  }) : super(key: key);
 
   @override
   _ConstructionHeadWorkerAttendanceSearchState createState() =>
@@ -131,10 +134,17 @@ class _ConstructionHeadWorkerAttendanceSearchState
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => HeadAttendance(
-                                            code: widget.code,
-                                            email: _queryUsers[index]
-                                                ['email'])));
+                                        builder: (context) => widget.isHead
+                                            ? AttandanceScreen(
+                                                email: _queryUsers[index]
+                                                    ['email'],
+                                                code: widget.code,
+                                              )
+                                            : HeadAttendance(
+                                                code: widget.code,
+                                                email: _queryUsers[index]
+                                                    ['email'],
+                                              )));
                               },
                               child: Card(
                                 // shape: RoundedRectangleBorder(

@@ -45,8 +45,9 @@ class _ConstructionHeadWorkerSearchState
       });
     } else {
       results = _allUsers
-          .where((user) =>
-              user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
+          .where((user) => user["designation"]
+              .toLowerCase()
+              .contains(enteredKeyword.toLowerCase()))
           .toList();
       setState(() {
         _foundUsers = results;
@@ -143,7 +144,7 @@ class _ConstructionHeadWorkerSearchState
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                          '${_foundUsers[index]["age"].toString()} years old',
+                                          '${_foundUsers[index]["designation"].toString()}',
                                           style:
                                               TextStyle(color: Colors.white)),
                                       Text(
@@ -160,9 +161,12 @@ class _ConstructionHeadWorkerSearchState
                               ),
                             ),
                           )
-                        : const Text(
-                            'No results found',
-                            style: TextStyle(fontSize: 24),
+                        : Center(
+                            child: const Text(
+                              'No results found',
+                              style:
+                                  TextStyle(fontSize: 24, color: Colors.white),
+                            ),
                           ),
                   ),
                 ],
