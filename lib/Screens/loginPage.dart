@@ -200,10 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _emailcontroller,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Enter a valid email';
-                      } else {
-                        return null;
-                      }
+                      } else {}
                     },
                     keyboardType: TextInputType.emailAddress,
                     style: TextStyle(
