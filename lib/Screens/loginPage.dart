@@ -69,19 +69,21 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              EmployerHomePage(email: email)));
+                          builder: (context) => EmployerHomePage(
+                              email: email, type: "Employer")));
                 } else if (typeOfUser == "Employee") {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              EmployeeHomePage(email: email)));
+                          builder: (context) => EmployeeHomePage(
+                              email: email, type: "Employee")));
                 } else if (typeOfUser == "Construction-Head") {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ConstructionHeadHomePage()));
+                          builder: (context) => ConstructionHeadHomePage(
+                                type: "Construction-Head",
+                              )));
                 }
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -128,17 +130,20 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => EmployerHomePage(email: email)));
+                        builder: (context) =>
+                            EmployerHomePage(email: email, type: "Employer")));
               } else if (typeOfUser == "Employee") {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => EmployeeHomePage(email: email)));
+                        builder: (context) =>
+                            EmployeeHomePage(email: email, type: "Employee")));
               } else if (typeOfUser == "Construction-Head") {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ConstructionHeadHomePage()));
+                        builder: (context) => ConstructionHeadHomePage(
+                            type: "Construction-Head")));
               }
             }
           },

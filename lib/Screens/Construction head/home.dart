@@ -15,7 +15,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ConstructionHeadHomePage extends StatelessWidget {
-  ConstructionHeadHomePage({super.key});
+  String type;
+  ConstructionHeadHomePage({super.key, required this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +45,16 @@ class ConstructionHeadHomePage extends StatelessWidget {
 
     var mediaquery = MediaQuery.of(context);
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          type,
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
       body: Container(
         height: mediaquery.size.height,
         width: mediaquery.size.width,

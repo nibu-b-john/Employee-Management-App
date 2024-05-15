@@ -119,7 +119,8 @@ class ContractDetailPage extends StatelessWidget {
                 height: 40,
               ),
               CardWidget(
-                  title: 'End-Date', description: contractDetails['End-Date']),
+                  title: 'Contract Period',
+                  description: contractDetails['End-Date'] + " Days"),
               const SizedBox(
                 height: 40,
               ),

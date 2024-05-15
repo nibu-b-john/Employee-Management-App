@@ -14,7 +14,8 @@ import 'package:flutter/material.dart';
 
 class EmployerHomePage extends StatelessWidget {
   String email;
-  EmployerHomePage({super.key, required this.email});
+  String type;
+  EmployerHomePage({super.key, required this.email, required this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +44,16 @@ class EmployerHomePage extends StatelessWidget {
 
     var mediaquery = MediaQuery.of(context);
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          type,
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
       body: Container(
         height: mediaquery.size.height,
         width: mediaquery.size.width,
@@ -157,7 +168,7 @@ class EmployerHomePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15)),
                 child: const Center(
                   child: Text(
-                    'Freelancer Serach',
+                    'Freelancer Search',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
